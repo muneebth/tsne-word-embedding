@@ -4,7 +4,36 @@ import csv
 import numpy as np
 from tsne import tsne
 import matplotlib.pyplot as plt
-import json
+
+
+def build(src_filename, delimiter=',', header=True, quoting=csv.QUOTE_MINIMAL):    
+    fp=open(src_filename,'r')
+    mat = []    
+    rownames = []
+    word_dim=0
+    for line in fp:
+        word_info=line.split()
+        if (len(word_info)==2):
+             print ' Number of words and dimension as follows '
+	     print line
+             word_freq=word_info[0]
+             word_dim=word_info[1]
+             #print word_freq
+             #print word_dim   
+                
+        else:
+	     if len(word_info)< int(word_dim):
+                    #print word_info
+		    print len(word_info),' ',word_dim	
+             else:	
+             	rownames.append(word_info[0])            
+             	mat.append(np.array(map(float, word_info[1: ])))
+            
+    return (mat, rownames)   
+
+
+
+
 
 def tsne_viz(
         mat=None,
@@ -47,10 +76,8 @@ def tsne_viz(
 
   
 if __name__ == "__main__":
-	fp=open('word2vecproj.json','r')
-	word_list=json.load(fp) 
-	tsne_viz(mat=np.array(word_list[0]),rownames=word_list[1])	
-	fp.close()
+	src_dir='glove25.txt'
+	wv = build(src_dir, delimiter=' ', header=True, quoting=csv.QUOTE_NONE)
+	tsne_viz(mat=np.array(wv[0]),rownames=wv[1])	
+	
 	       
-	    
-	    
