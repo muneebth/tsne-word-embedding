@@ -5,4 +5,4 @@ Input:
   word2vecproj.json : which consist of word vectors and word name
   
   
-  --->run the code by running python projec.py
+  --->run the code by running python project.py
